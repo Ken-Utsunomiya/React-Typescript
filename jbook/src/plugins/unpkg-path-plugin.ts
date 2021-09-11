@@ -5,14 +5,8 @@ import localforage from 'localforage'
 const fileCache = localforage.createInstance({
   name: 'filecache',
 });
-
-(async () => {
-  await fileCache.setItem('color', 'red')
-  const color = await fileCache.getItem('color')
-  console.log(color)
-})()
  
-export const unpkgPathPlugin = () => {
+export const unpkgPathPlugin = (inputCode: string) => {
   return {
     name: 'unpkg-path-plugin',
     setup(build: esbuild.PluginBuild) {
@@ -49,10 +43,7 @@ export const unpkgPathPlugin = () => {
         if (args.path === 'index.js') {
           return {
             loader: 'jsx',
-            contents: `
-              import React from 'react'
-              console.log(React)
-            `,
+            contents: inputCode,
           };
         }
 
