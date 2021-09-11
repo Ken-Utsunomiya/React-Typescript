@@ -56,8 +56,11 @@ export const unpkgPathPlugin = () => {
           };
         }
 
-        const { data, request } = await axios.get('https://unpkg.com/tiny-test-pkg@1.0.0/index.js')
-        console.log(request)
+        // Check to see if we have already fetched this file
+        // and if it is in the cache
+
+        const { data, request } = await axios.get(args.path)
+        // store response in cache
         return {
           loader: 'jsx',
           contents: data,
