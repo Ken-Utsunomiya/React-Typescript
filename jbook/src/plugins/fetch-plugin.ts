@@ -17,14 +17,17 @@ export const fetchPlugin = (inputCode: string) => {
         };
       })
 
-      build.onLoad({ filter: /.css$/ }, async (args: any) => {
-        // Check to see if we have already fetched this file
-        // and if it is in the cache
-        const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(args.path)
+    build.onLoad({ filter: /.*/}, async (args: any) => {
+      // Check to see if we have already fetched this file
+      // and if it is in the cache
+      const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(args.path)
 
-        if (cachedResult) {
-          return cachedResult
-        }
+      if (cachedResult) {
+        return cachedResult
+      }
+    })
+
+      build.onLoad({ filter: /.css$/ }, async (args: any) => {
 
         const { data, request } = await axios.get(args.path)
 
